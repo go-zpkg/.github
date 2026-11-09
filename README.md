@@ -3,7 +3,12 @@
 Shared defaults for this organisation.
 
 `default.json` is the Renovate preset every repository here extends with
-`{"extends": ["github>go-pkgx/.github"]}`.
+`{"extends": ["github>go-zpkg/.github"]}`.
+
+⛔ It said `go-pkgx` until 2026-11-09, and it RESOLVED: GitHub redirects a
+transferred repository's API path, so `github>go-pkgx/.github` reached this file
+anyway. A stale name that works is the kind that outlives the move — nothing
+fails, so nothing asks. It stops working the day the redirect does.
 
 Minor and patch Go dependency updates merge themselves once the tests pass.
 **The Go toolchain does not.** `go1.27.0` miscompiles on loong64

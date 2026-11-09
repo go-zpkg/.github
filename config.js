@@ -16,7 +16,20 @@ module.exports = {
   // rejected and the run still reports success.
   gitAuthor: 'tannevaled <tannevaled@users.noreply.github.com>',
   autodiscover: true,
-  autodiscoverFilter: ['go-pkgx/**'],
+  // ⛔⛔ THIS NAMED go-pkgx, AND THIS ORGANISATION IS go-zpkg. autodiscover
+  // lists the installation's repositories under their CURRENT names, so a
+  // filter naming the old organisation matches none of them — and Renovate
+  // reports a successful run having examined nothing, which is the same silent
+  // shape the comments above and below are both about.
+  //
+  // What is established: the filter named an organisation that no longer
+  // exists, and Renovate's last activity in go-zpkg/zbk was #383, updated
+  // 2026-11-04T01:31:11Z — one minute after this repository's last push, and
+  // five days ago. What is NOT established is that the filter caused the
+  // silence: "nothing since" is also what "nothing to update" looks like. The
+  // next run is the test, and a filter naming a dead organisation is a defect
+  // on its face whichever way that goes.
+  autodiscoverFilter: ['go-zpkg/**'],
   onboarding: false,
   requireConfig: 'optional',
   dependencyDashboard: true,
