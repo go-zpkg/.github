@@ -12,8 +12,8 @@
 <p align="center">
   <a href="https://go-zpkg.github.io/">Home</a> ·
   <a href="https://go-zpkg.github.io/docs/latest/">Docs</a> ·
-  <a href="https://github.com/go-zpkg/zpkgx">zpkgx</a> ·
-  <a href="https://github.com/go-zpkg/zpkgm">zpkgm</a> ·
+  <a href="https://github.com/go-zpkg/zpkx">zpkx</a> ·
+  <a href="https://github.com/go-zpkg/zpkm">zpkm</a> ·
   <a href="https://github.com/go-zpkg/artifact">artifact</a>
 </p>
 
@@ -23,15 +23,15 @@ Everything is `CGO_ENABLED=0` Go with no runtime dependencies of its own — sin
 static binaries that materialise a package's full dependency closure on demand and
 work on a literally-empty `FROM scratch` image.
 
-`zpkgm` **installs**, `zpkgx` **runs** without installing, and `zpkgs` **answers
+`zpkm` **installs**, `zpkx` **runs** without installing, and `zpks` **answers
 about** packages. The last two ship from one release, because the word after
-`zpkgx` is a *package*: `zpkgx ls` runs GNU ls, so the verbs needed a command of
+`zpkx` is a *package*: `zpkx ls` runs GNU ls, so the verbs needed a command of
 their own.
 
 | repo | role |
 | --- | --- |
-| [**zpkgx**](https://github.com/go-zpkg/zpkgx) | **runtime** — run packages on the fly (`zpkgx node@22`), bring several into an environment (`zpkgx +git +bash -- …`), and name and load environments with a module system that needs no Lmod |
-| [**zpkgm**](https://github.com/go-zpkg/zpkgm) | **installer** — `install`/`uninstall`/`shim`/`list`/…, plus a `run` for scratch images |
+| [**zpkx**](https://github.com/go-zpkg/zpkx) | **runtime** — run packages on the fly (`zpkx node@22`), bring several into an environment (`zpkx +git +bash -- …`), and name and load environments with a module system that needs no Lmod |
+| [**zpkm**](https://github.com/go-zpkg/zpkm) | **installer** — `install`/`uninstall`/`shim`/`list`/…, plus a `run` for scratch images |
 | [**artifact**](https://github.com/go-zpkg/artifact) | **shared backend** — the artifact protocol: resolution, download, soname-exact `FROM scratch` closure completion, loader-aware exec |
 | [**zpkb**](https://github.com/go-zpkg/zpkb) | **build tool** — a pure-Go brewkit: builds a pantry recipe and packages an artifact, with the build *target* a first-class value, so Windows PE artifacts cross-build from a linux host |
 | [**packages**](https://github.com/go-zpkg/packages) | **registry** — a pure-Go factory that builds **our own** recipes with `zpkb` and publishes **signed, attested** artifacts (SBOM + SLSA provenance + signature) |
@@ -48,9 +48,9 @@ release and verifies it against `SHA256SUMS`:
 
 ```sh
 # Linux / macOS
-curl -fsSL https://go-zpkg.github.io/install.sh | sh -s -- zpkgm v0.10.0
-curl -fsSL https://go-zpkg.github.io/install.sh | sh -s -- zpkgx v0.39.0
-curl -fsSL https://go-zpkg.github.io/install.sh | sh -s -- zpkgs v0.39.0
+curl -fsSL https://go-zpkg.github.io/install.sh | sh -s -- zpkm v0.10.0
+curl -fsSL https://go-zpkg.github.io/install.sh | sh -s -- zpkx v0.39.0
+curl -fsSL https://go-zpkg.github.io/install.sh | sh -s -- zpks v0.39.0
 ```
 
 ```powershell
@@ -61,8 +61,8 @@ irm https://go-zpkg.github.io/install.ps1 | iex
 The version is named on purpose: this line copied today and the same line copied
 in six months install the same bytes. Write `latest` where the version goes to
 ask for the newest instead. Re-running *is* the updater — it skips the download
-when the target version is already installed, and `ZPKGM_FORCE=1` reinstalls
-anyway. Go users can `go install github.com/go-zpkg/zpkgm@latest`.
+when the target version is already installed, and `ZPKM_FORCE=1` reinstalls
+anyway. Go users can `go install github.com/go-zpkg/zpkm@latest`.
 
 All three import `go-zpkg/artifact`, so there is one source of truth and no
 duplication. `net/http` with an embedded CA bundle replaces curl+openssl;
