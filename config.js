@@ -23,7 +23,7 @@ module.exports = {
   // shape the comments above and below are both about.
   //
   // What is established: the filter named an organisation that no longer
-  // exists, and Renovate's last activity in go-zpkg/zbk was #383, updated
+  // exists, and Renovate's last activity in go-zpkg/zpkb was #383, updated
   // 2026-11-04T01:31:11Z — one minute after this repository's last push, and
   // five days ago. What is NOT established is that the filter caused the
   // silence: "nothing since" is also what "nothing to update" looks like. The
@@ -32,7 +32,13 @@ module.exports = {
   autodiscoverFilter: ['go-zpkg/**'],
   onboarding: false,
   requireConfig: 'optional',
-  dependencyDashboard: true,
+  // ⛔ AN OBJECT, NOT A BOOLEAN, and this is a schema that moved under a
+  // config that did not. Renovate's validator now reads `dependencyDashboard`
+  // as `{ enabled: bool }` and rejects the bare `true` this held. Nothing here
+  // changed; the container the `validate` job pulls at run time did. A check
+  // whose authority is downloaded fresh each run can go red with no commit
+  // behind it, so a green main only means "green when it last ran".
+  dependencyDashboard: { enabled: true },
   repositoryCache: 'enabled',
   // default.json beside this file is a PRESET, and a preset reaches a
   // repository only through an `extends` that names it. Sitting in the

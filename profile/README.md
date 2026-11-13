@@ -14,7 +14,7 @@
   <a href="https://go-zpkg.github.io/docs/latest/">Docs</a> ·
   <a href="https://github.com/go-zpkg/zpkgx">zpkgx</a> ·
   <a href="https://github.com/go-zpkg/zpkgm">zpkgm</a> ·
-  <a href="https://github.com/go-zpkg/bottle">bottle</a>
+  <a href="https://github.com/go-zpkg/artifact">artifact</a>
 </p>
 
 ---
@@ -32,11 +32,11 @@ their own.
 | --- | --- |
 | [**zpkgx**](https://github.com/go-zpkg/zpkgx) | **runtime** — run packages on the fly (`zpkgx node@22`), bring several into an environment (`zpkgx +git +bash -- …`), and name and load environments with a module system that needs no Lmod |
 | [**zpkgm**](https://github.com/go-zpkg/zpkgm) | **installer** — `install`/`uninstall`/`shim`/`list`/…, plus a `run` for scratch images |
-| [**bottle**](https://github.com/go-zpkg/bottle) | **shared backend** — the bottle protocol: resolution, download, soname-exact `FROM scratch` closure completion, loader-aware exec |
-| [**zbk**](https://github.com/go-zpkg/zbk) | **build tool** — a pure-Go brewkit: builds a pantry recipe and packages a bottle, with the build *target* a first-class value, so Windows PE bottles cross-build from a linux host |
-| [**packages**](https://github.com/go-zpkg/packages) | **registry** — a pure-Go factory that builds **our own** recipes with `zbk` and publishes **signed, attested** bottles (SBOM + SLSA provenance + signature) |
+| [**artifact**](https://github.com/go-zpkg/artifact) | **shared backend** — the artifact protocol: resolution, download, soname-exact `FROM scratch` closure completion, loader-aware exec |
+| [**zpkb**](https://github.com/go-zpkg/zpkb) | **build tool** — a pure-Go brewkit: builds a pantry recipe and packages an artifact, with the build *target* a first-class value, so Windows PE artifacts cross-build from a linux host |
+| [**packages**](https://github.com/go-zpkg/packages) | **registry** — a pure-Go factory that builds **our own** recipes with `zpkb` and publishes **signed, attested** artifacts (SBOM + SLSA provenance + signature) |
 | [**pantry-overlay**](https://github.com/go-zpkg/pantry-overlay) | **our recipes** — read through `ZPKG_PANTRY_OVERLAY`. Each one records in `provenance` which of the project's *own* build files it was written from, and separately whose packaging was read for facts |
-| [**mirror**](https://github.com/go-zpkg/mirror) | **mirror** — sync a local mirror of bottles; serve it and point tools at it with `ZPKG_DIST` |
+| [**mirror**](https://github.com/go-zpkg/mirror) | **mirror** — sync a local mirror of artifacts; serve it and point tools at it with `ZPKG_DIST` |
 | [**registry-viewer**](https://github.com/go-zpkg/registry-viewer) | **the tree at <https://go-zpkg.github.io/packages/>** — a `CGO_ENABLED=0` WASM app drawing the registry as a filterable `TreeTable` to a `<canvas>`, with go-widgets/toolkit and go-widgets/painter, from the `registry.json` the factory emits |
 | [**docs**](https://github.com/go-zpkg/docs) | **the documentation site** at <https://go-zpkg.github.io/docs/latest/> |
 | [**brand**](https://github.com/go-zpkg/brand) | **logos and icons** |
@@ -64,10 +64,10 @@ ask for the newest instead. Re-running *is* the updater — it skips the downloa
 when the target version is already installed, and `ZPKGM_FORCE=1` reinstalls
 anyway. Go users can `go install github.com/go-zpkg/zpkgm@latest`.
 
-All three import `go-zpkg/bottle`, so there is one source of truth and no
+All three import `go-zpkg/artifact`, so there is one source of truth and no
 duplication. `net/http` with an embedded CA bundle replaces curl+openssl;
 `compress/gzip` + a pure-Go xz decoder replace info-zip+xz. The `packages`
-factory signs every bottle against a pinned key, and `ZPKG_VERIFY=1` refuses
+factory signs every artifact against a pinned key, and `ZPKG_VERIFY=1` refuses
 anything that does not verify. Everything is BSD-3-Clause, and CI does not stop
 at cross-compiling: the suites **run** under `qemu-user` on arm64, riscv64,
 ppc64le, s390x and loong64 — s390x because it is big-endian and nothing else is,
